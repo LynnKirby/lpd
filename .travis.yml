@@ -5,9 +5,9 @@ compiler:
 - gcc
 
 install:
-- sudo add-apt-repository ppa:jimporter/stable -y
 - sudo apt-get update -q
-- sudo apt-get install -q bfg9000 ninja-build
+- sudo apt-get install -q ninja-build python-pip
+- pip install bfg9000
 - 9k build && cd build && ninja
 
 script:
