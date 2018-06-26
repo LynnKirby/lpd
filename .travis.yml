@@ -1,14 +1,16 @@
+sudo: required
 language: c
+
+os:
+- linux
+- osx
 
 compiler:
 - clang
 - gcc
 
-install:
-- sudo apt-get update -q
-- sudo apt-get install -q ninja-build python-pip
-- NO_PATCHELF=1 sudo pip install bfg9000
-- 9k build && cd build && ninja
+before_install: ./scripts/travis-dependencies.sh
+install: 9k build && cd build && ninja
 
 script:
 - ./termcolor
