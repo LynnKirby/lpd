@@ -1,17 +1,8 @@
 build: off
-
-platform:
-- x86
-- x64
-
-configuration:
-- Debug
-- Release
-
-matrix:
-  fast_finish: true
+image: Visual Studio 2017
 
 install:
+- call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
 - cinst ninja
 - pip install bfg9000
 - 9k build && cd build && ninja
