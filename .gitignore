@@ -1,2 +1,5 @@
 .vscode/
 build/
+.vagrant/
+Vagrantfile
+*.log

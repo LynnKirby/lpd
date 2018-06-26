@@ -60,22 +60,22 @@ extern lpd_tc_result lpd_termcolor_reset(FILE* stream);
 
 lpd_tc_result lpd_termcolor_fg(FILE* stream, lpd_tc_color color) {
     return lpd_termcolor(
-        stream, 
-        color, 
+        stream,
+        color,
         LPD_TC_UNSET_COLOR);
 }
 
 lpd_tc_result lpd_termcolor_bg(FILE* stream, lpd_tc_color color) {
     return lpd_termcolor(
-        stream, 
-        LPD_TC_UNSET_COLOR, 
+        stream,
+        LPD_TC_UNSET_COLOR,
         color);
 }
 
 lpd_tc_result lpd_termcolor_reset(FILE* stream) {
     return lpd_termcolor(
-        stream, 
-        LPD_TC_DEFAULT_COLOR, 
+        stream,
+        LPD_TC_DEFAULT_COLOR,
         LPD_TC_DEFAULT_COLOR);
 }
 
@@ -96,6 +96,7 @@ static lpd_tc_result lpd_tc__ansi(FILE* stream, lpd_tc_color fg, lpd_tc_color bg
     case LPD_TC_CYAN:           retval = fputs("\x1b[36m", stream); break;
     case LPD_TC_WHITE:          retval = fputs("\x1b[37m", stream); break;
     case LPD_TC_DEFAULT_COLOR:  retval = fputs("\x1b[39m", stream); break;
+    case LPD_TC_UNSET_COLOR:    /* do nothing */ break;
     }
 
     if (retval == EOF) return LPD_TC_EFILE;
@@ -110,6 +111,7 @@ static lpd_tc_result lpd_tc__ansi(FILE* stream, lpd_tc_color fg, lpd_tc_color bg
     case LPD_TC_CYAN:           retval = fputs("\x1b[46m", stream); break;
     case LPD_TC_WHITE:          retval = fputs("\x1b[47m", stream); break;
     case LPD_TC_DEFAULT_COLOR:  retval = fputs("\x1b[49m", stream); break;
+    case LPD_TC_UNSET_COLOR:    /* do nothing */ break;
     }
 
     if (retval == EOF) return LPD_TC_EFILE;
@@ -151,7 +153,7 @@ lpd_tc_result lpd_termcolor(FILE* stream, lpd_tc_color fg, lpd_tc_color bg) {
 #define LPD_TC__USE_WINAPI 2
 
 #include <string.h>
-#include <windows.h>
+#include <Windows.h>
 #include <io.h>
 
 static lpd_tc_result lpd_tc__stream_type(FILE* stream, int* type, HANDLE* handle) {
@@ -242,10 +244,10 @@ lpd_tc_result lpd_tc__winapi(HANDLE handle, lpd_tc_color fg, lpd_tc_color bg) {
 
     // Blue foreground is unreadable so use increased intensity.
     // (Even with intense blue it's hard to read...)
-    if (fg = LPD_TC_BLUE) {
+    if (fg == LPD_TC_BLUE) {
         attributes |= FOREGROUND_INTENSITY;
     }
-    
+
     if (SetConsoleTextAttribute(handle, attributes)) return LPD_TC_OK;
     return LPD_TC_EWIN;
 }
