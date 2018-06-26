@@ -8,4 +8,4 @@ install:
 - 9k build && cd build && ninja
 
 test_script:
-- ./termcolor.exe
+- cmd: termcolor.exe
