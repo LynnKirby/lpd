@@ -1,12 +1,17 @@
 language: c
 
+os:
+- linux
+- osx
+
 compiler:
 - clang
 - gcc
 
 install:
-- sudo apt-get update -q
-- sudo apt-get install -q ninja-build python-pip
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -q; fi
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install -q ninja-build python-pip; fi
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install ninja; fi
 - NO_PATCHELF=1 sudo pip install bfg9000
 - 9k build && cd build && ninja
 
