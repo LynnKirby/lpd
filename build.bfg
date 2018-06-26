@@ -1,0 +1,7 @@
+bfg9000_required_version('>=0.3.0')
+project('lpd')
+
+global_options(['-std=c99', '-Wall', '-Werror', '-Wextra', '-pedantic'], lang='c')
+
+includes = header_directory('include')
+executable('termcolor', files=['examples/termcolor.c'], includes=[includes])
