@@ -189,10 +189,6 @@ static lpd_tc_result lpd_tc__stream_type(FILE* stream, int* type, HANDLE* handle
         }
 
         if (info->FileNameLength != 0) {
-            // Stick a NULL at the end of the string so we can use regular
-            // C string functions.
-            info->FileName[info->FileNameLength / sizeof(WCHAR)] = L'\0';
-
             // Check if the filename starts with \cygwin- or \msys-
             // and contains both -pty and -master.
             // TODO: Parse the actual format.
