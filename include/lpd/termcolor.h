@@ -19,8 +19,18 @@ extern "C" {
 #ifndef LPD_TERMCOLOR_H
 #define LPD_TERMCOLOR_H
 
-#include <stdio.h>
+// Compiling with MSVC and /Wall shows a bunch of errors in the Windows includes
+// so just disable the errors temporarily.
+#ifdef _MSC_VER
+#pragma warning(push, 0)
+#endif
+
 #include <assert.h>
+#include <stdio.h>
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 
 enum lpd_tc_color {
     LPD_TC_UNSET_COLOR = ~1,
@@ -152,9 +162,18 @@ lpd_tc_result lpd_termcolor(FILE* stream, lpd_tc_color fg, lpd_tc_color bg) {
 #define LPD_TC__USE_ANSI 1
 #define LPD_TC__USE_WINAPI 2
 
+#ifdef _MSC_VER
+#pragma warning(push, 0)
+#endif
+
+#include <stdlib.h>
 #include <string.h>
-#include <Windows.h>
 #include <io.h>
+#include <Windows.h>
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 
 static lpd_tc_result lpd_tc__stream_type(FILE* stream, int* type, HANDLE* handle) {
     // 1. Get the file descriptor.
@@ -240,7 +259,7 @@ lpd_tc_result lpd_tc__winapi(HANDLE handle, lpd_tc_color fg, lpd_tc_color bg) {
     if (fg == LPD_TC_DEFAULT_COLOR) fg = LPD_TC_WHITE;
     if (bg == LPD_TC_DEFAULT_COLOR) bg = LPD_TC_BLACK;
 
-    WORD attributes = (fg) | (bg << 4);
+    WORD attributes = (WORD) ((fg) | (bg << 4));
 
     // Blue foreground is unreadable so use increased intensity.
     // (Even with intense blue it's hard to read...)
