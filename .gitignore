@@ -1,5 +1,6 @@
 .vscode/
 build/
 .vagrant/
+.mypy_cache/
 Vagrantfile
 *.log
