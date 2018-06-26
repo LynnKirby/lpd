@@ -10,7 +10,6 @@ This software is distributed without any warranty.
 
 You should have received a copy of the CC0 Public Domain Dedication along with
 this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
-
 */
 
 #ifdef __cplusplus
@@ -44,7 +43,6 @@ enum lpd_tc_result {
 };
 
 typedef enum lpd_tc_color lpd_tc_color;
-typedef enum lpd_tc_style lpd_tc_style;
 typedef enum lpd_tc_result lpd_tc_result;
 
 extern lpd_tc_result lpd_termcolor(FILE* stream, lpd_tc_color fg, lpd_tc_color bg);
