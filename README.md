@@ -5,9 +5,10 @@
 [![Windows build status](https://img.shields.io/appveyor/ci/LynnKirby/lpd/master.svg?style=flat-square&label=Windows%20build)](https://ci.appveyor.com/project/LynnKirby/lpd)
 [![License](https://img.shields.io/github/license/LynnKirby/lpd.svg?style=flat-square)](https://creativecommons.org/publicdomain/zero/1.0/)
 
-| Library                                | Description              |
-| -------------------------------------- | ------------------------ |
-| [`termcolor`](include/lpd/termcolor.h) | portable terminal colors |
+| Library                                | Description                    |
+| -------------------------------------- | ------------------------------ |
+| [`termcolor`](include/lpd/termcolor.h) | portable terminal colors       |
+| [`win2errno`](include/lpd/win2errno.h) | Windows error codes to C errno |
 
 ## License
 
