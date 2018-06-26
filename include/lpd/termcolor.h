@@ -123,10 +123,11 @@ static lpd_tc_result lpd_tc__ansi(FILE* stream, lpd_tc_color fg, lpd_tc_color bg
 
 #ifndef _WIN32
 
+#include <errno.h>
 #include <unistd.h>
 
 lpd_tc_result lpd_termcolor(FILE* stream, lpd_tc_color fg, lpd_tc_color bg) {
-    int fd = fileno(x);
+    int fd = fileno(stream);
     if (fd < 0) return LPD_TC_EERRNO;
 
     if (!isatty(fd)) {
@@ -134,7 +135,7 @@ lpd_tc_result lpd_termcolor(FILE* stream, lpd_tc_color fg, lpd_tc_color bg) {
         return LPD_TC_EERRNO;
     }
 
-    return lpd_tc__ansi(file, fg, bg);
+    return lpd_tc__ansi(stream, fg, bg);
 }
 
 #endif
