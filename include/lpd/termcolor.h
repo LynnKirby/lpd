@@ -10,6 +10,26 @@ This software is distributed without any warranty.
 
 You should have received a copy of the CC0 Public Domain Dedication along with
 this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
+
+## Usage
+
+This file can be included multiple times as a header. To get the implementation,
+define `LPD_TERMCOLOR_IMPLEMENTATION` then include this file. For example:
+
+    #define LPD_TERMCOLOR_IMPLEMENTATION
+    #include <lpd/termcolor.h>
+
+On Windows, define macros for a version greater than or equal to Vista.
+For example:
+
+    #define WINVER 0x0600
+    #define _WIN32_WINNT 0x0600
+    #define NTDDI_VERSION 0x06000000
+
+On POSIX-compatible systems, define a POSIX feature test macro for POSIX.1
+or greater. For example:
+
+    #define _POSIX_C_SOURCE 1
 */
 
 #ifdef __cplusplus
