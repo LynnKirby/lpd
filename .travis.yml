@@ -1,0 +1,14 @@
+language: c
+
+compiler:
+- clang
+- gcc
+
+install:
+- sudo add-apt-repository ppa:jimporter/stable -y
+- sudo apt-get update -q
+- sudo apt-get install -q bfg9000 ninja-build
+- 9k build && cd build && ninja
+
+script:
+- ./termcolor
