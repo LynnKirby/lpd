@@ -9,6 +9,6 @@ else
     sudo apt-get update -q
     sudo apt-get install -q ninja-build python-pip
     pip install pipenv --user
+    # FIXME: for some reason patchelf-wrapper fails to install on Travis
     NO_PATCHELF=1 pipenv install
-    pipenv graph
 fi
