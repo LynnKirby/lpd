@@ -7,7 +7,7 @@ if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
     pipenv install
 else
     sudo apt-get update -q
-    sudo apt-get install -q ninja-build python-pip
-    pip install pipenv --user
+    sudo apt-get install -q ninja-build python3-pip
+    pip3 install pipenv --user
     pipenv install
 fi
