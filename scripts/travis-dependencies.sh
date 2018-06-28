@@ -9,6 +9,6 @@ else
     sudo apt-get update -q
     sudo apt-get install -q ninja-build python-pip
     pip install pipenv --user
+    NO_PATCHELF=1 pipenv install
     pipenv graph
-    NOPATCHELF=1 pipenv install
 fi
