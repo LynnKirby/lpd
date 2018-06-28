@@ -8,6 +8,7 @@
 | Library                                | Description                    |
 | -------------------------------------- | ------------------------------ |
 | [`termcolor`](include/lpd/termcolor.h) | portable terminal colors       |
+| [`termkind`](include/lpd/termkind.h)   | a better `isatty()`            |
 | [`win2errno`](include/lpd/win2errno.h) | Windows error codes to C errno |
 
 ## License
