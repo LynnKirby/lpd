@@ -11,5 +11,5 @@ else
     pip install -U pip
     pip install pipenv --user
     pipenv install
-    pipenv run python -e "import pkg_resources; print(pkg_resources.iter_entry_points('bfg9000.backends'))"
+    pipenv run python -c "import pkg_resources; print(list(pkg_resources.iter_entry_points('bfg9000.backends')))"
 fi
