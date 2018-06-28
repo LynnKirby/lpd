@@ -10,7 +10,7 @@ compiler:
 - gcc
 
 before_install: ./scripts/travis-dependencies.sh
-install: 9k build && cd build && ninja
+install: pipenv run 9k build && cd build && ninja
 
 script:
 - ./termcolor

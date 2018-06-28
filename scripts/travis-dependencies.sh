@@ -1,10 +1,14 @@
 #!/bin/bash
 
 if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
-    HOMEBREW_NO_AUTO_UPDATE=1 brew install ninja
-    pip2 install bfg9000
+    HOMEBREW_NO_AUTO_UPDATE=1
+    brew update
+    brew install ninja pipenv
+    pipenv install
 else
     sudo apt-get update -q
     sudo apt-get install -q ninja-build python-pip
-    NO_PATCHELF=1 sudo pip install bfg9000
+    pip install pipenv --user
+    # FIXME: for some reason patchelf-wrapper fails to install on Travis
+    NO_PATCHELF=1 pipenv install
 fi
