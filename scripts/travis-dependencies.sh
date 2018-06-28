@@ -8,6 +8,6 @@ if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
 else
     sudo apt-get update -q
     sudo apt-get install -q ninja-build python-pip
-    sudo pip install pipenv
+    pip install pipenv --user
     pipenv install
 fi
