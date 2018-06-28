@@ -7,7 +7,9 @@ if [[ $TRAVIS_OS_NAME == 'osx' ]]; then
     pipenv install
 else
     sudo apt-get update -q
-    sudo apt-get install -q ninja-build python3-pip
-    pip3 install pipenv --user
+    sudo apt-get install -q ninja-build python-pip
+    pip install -U pip
+    pip install pipenv --user
     pipenv install
+    pipenv run python -e "import pkg_resources; print(pkg_resources.iter_entry_points('bfg9000.backends'))"
 fi
