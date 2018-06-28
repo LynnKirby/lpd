@@ -20,7 +20,13 @@ this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 #define DWORD uint32_t
 #endif
 
-extern int lpd_win2errno(DWORD err);
+#ifdef LPD_WIN2ERRNO_STATIC
+#define LPD_W2E__DEF static
+#else
+#define LPD_W2E__DEF extern
+#endif
+
+LPD_W2E__DEF int lpd_win2errno(DWORD err);
 
 #endif
 
@@ -107,4 +113,4 @@ int lpd_win2errno(DWORD err) {
     }
 }
 
-#endif LPD_WIN2ERRNO_IMPLEMENTATION
+#endif
