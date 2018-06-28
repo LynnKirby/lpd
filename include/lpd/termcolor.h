@@ -178,10 +178,6 @@ lpd_tc_result lpd_termcolor(FILE* stream, lpd_tc_color fg, lpd_tc_color bg) {
 
 #ifdef _WIN32
 
-#define LPD_TC__USE_NOTTY 0
-#define LPD_TC__USE_ANSI 1
-#define LPD_TC__USE_WINAPI 2
-
 #ifdef _MSC_VER
 #pragma warning(push, 0)
 #endif
@@ -195,72 +191,17 @@ lpd_tc_result lpd_termcolor(FILE* stream, lpd_tc_color fg, lpd_tc_color bg) {
 #pragma warning(pop)
 #endif
 
-static lpd_tc_result lpd_tc__stream_type(FILE* stream, int* type, HANDLE* handle) {
-    // 1. Get the file descriptor.
-    int fd = _fileno(stream);
+#define LPD_TERMKIND_STATIC
+#define LPD_TERMKIND_IMPLEMENTATION
+#include "lpd/termkind.h"
 
-    // Invalid FILE* - sets errno.
-    if (fd == -1) return LPD_TC_EERRNO;
+lpd_tc_result lpd_tc__winapi(FILE* stream, lpd_tc_color fg, lpd_tc_color bg) {
+    HANDLE handle = (HANDLE) _get_osfhandle(_fileno(stream));
 
-    // Not associated with an output stream - not a TTY.
-    if (fd == -2) {
-        *type = LPD_TC__USE_NOTTY;
-        return LPD_TC_OK;
+    if (handle == INVALID_HANDLE_VALUE) {
+        return LPD_TC_EERRNO;
     }
 
-    // 2. Get the OS handle.
-    *handle = (HANDLE) _get_osfhandle(fd);
-
-    // Invalid HANDLE - sets errno.
-    if (*handle == INVALID_HANDLE_VALUE) return LPD_TC_EERRNO;
-
-    // 3. Check the type of the HANDLE.
-    DWORD file_type = GetFileType(*handle);
-
-    // If it's a pipe it might be a pseudo-terminal, e.g. mintty.
-    if (file_type == FILE_TYPE_PIPE) {
-        *type = LPD_TC__USE_NOTTY;
-
-        DWORD size = sizeof(FILE_NAME_INFO) + (sizeof(WCHAR) * MAX_PATH);
-        FILE_NAME_INFO* info = malloc(size);
-        if (info == NULL) return LPD_TC_EERRNO;
-
-        if (!GetFileInformationByHandleEx(*handle, FileNameInfo, info, size)) {
-            free(info);
-            return LPD_TC_EWIN;
-        }
-
-        if (info->FileNameLength != 0) {
-            // Check if the filename starts with \cygwin- or \msys-
-            // and contains both -pty and -master.
-            // TODO: Parse the actual format.
-            if (wcsncmp(L"\\cygwin-", info->FileName, wcslen(L"\\cygwin-")) == 0 ||
-                wcsncmp(L"\\msys-", info->FileName, wcslen(L"\\msys-")) == 0
-            ) {
-                if (wcsstr(info->FileName, L"-pty") != NULL &&
-                    wcsstr(info->FileName, L"-master") != NULL
-                ) {
-                    *type = LPD_TC__USE_ANSI;
-                }
-            }
-        }
-
-        free(info);
-        return LPD_TC_OK;
-    }
-
-    // Character device is a Windows TTY.
-    if (file_type == FILE_TYPE_CHAR) {
-        *type = LPD_TC__USE_WINAPI;
-        return LPD_TC_OK;
-    }
-
-    // If it's something else, it's not a TTY.
-    *type = LPD_TC__USE_NOTTY;
-    return LPD_TC_OK;
-}
-
-lpd_tc_result lpd_tc__winapi(HANDLE handle, lpd_tc_color fg, lpd_tc_color bg) {
     // If we want to retain any colors then we need to query for them.
     if (fg == LPD_TC_UNSET_COLOR || bg == LPD_TC_UNSET_COLOR) {
         CONSOLE_SCREEN_BUFFER_INFO info;
@@ -292,27 +233,24 @@ lpd_tc_result lpd_tc__winapi(HANDLE handle, lpd_tc_color fg, lpd_tc_color bg) {
 }
 
 lpd_tc_result lpd_termcolor(FILE* stream, lpd_tc_color fg, lpd_tc_color bg) {
-    int type;
-    HANDLE handle;
+    switch (lpd_termkind_stream(stream)) {
+    case LPD_TK_ERROR:
+        return LPD_TC_EERRNO;
 
-    lpd_tc_result result = lpd_tc__stream_type(stream, &type, &handle);
-    if (result != LPD_TC_OK) return result;
+    case LPD_TK_NOTTY:
+        return LPD_TC_OK;
 
-    if (type == LPD_TC__USE_WINAPI) {
-        return lpd_tc__winapi(handle, fg, bg);
-    }
-
-    if (type == LPD_TC__USE_ANSI) {
+    case LPD_TK_TTY:
+    case LPD_TK_WIN_PTY:
         return lpd_tc__ansi(stream, fg, bg);
+
+    case LPD_TK_WIN_CONSOLE:
+        return lpd_tc__winapi(stream, fg, bg);
     }
 
-    // Not a TTY, do nothing.
+    assert(0 && "unreachable");
     return LPD_TC_OK;
 }
-
-#undef LPD_TC__USE_NOTTY
-#undef LPD_TC__USE_WINAPI
-#undef LPD_TC__USE_ANSI
 
 #endif
 #endif
