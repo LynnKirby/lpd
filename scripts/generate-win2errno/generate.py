@@ -16,7 +16,7 @@ from subprocess import run, check_output
 
 this_dir = os.path.dirname(__file__)
 helper_file = os.path.abspath(os.path.join(this_dir, 'helper.c'))
-out_file = os.path.join(this_dir, '../../include/lpd/win2errno.h')
+out_file = os.path.join(this_dir, '../../include/lpd_win2errno.h')
 template = os.path.join(this_dir, 'win2errno.template.h')
 
 # Must be VS 2013.

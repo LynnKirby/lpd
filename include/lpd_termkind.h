@@ -1,5 +1,5 @@
 /*
-# lpd/termkind.h
+# lpd_termkind.h
 > a better `isatty()`
 
 Written in 2018 by Lynn Kirby <lynn@arrak.is>
@@ -97,7 +97,7 @@ extern lpd_termkind lpd_termkind_file(int fd) {
 
 #define LPD_WIN2ERRNO_STATIC
 #define LPD_WIN2ERRNO_IMPLEMENTATION
-#include "lpd/win2errno.h"
+#include "lpd_win2errno.h"
 
 lpd_termkind lpd_termkind_stream(FILE* stream) {
     int fd = _fileno(stream);

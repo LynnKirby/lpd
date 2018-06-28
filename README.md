@@ -5,11 +5,11 @@
 [![Windows build status](https://img.shields.io/appveyor/ci/LynnKirby/lpd/master.svg?style=flat-square&label=Windows%20build)](https://ci.appveyor.com/project/LynnKirby/lpd)
 [![License](https://img.shields.io/github/license/LynnKirby/lpd.svg?style=flat-square)](https://creativecommons.org/publicdomain/zero/1.0/)
 
-| Library                                | Description                    |
-| -------------------------------------- | ------------------------------ |
-| [`termcolor`](include/lpd/termcolor.h) | portable terminal colors       |
-| [`termkind`](include/lpd/termkind.h)   | a better `isatty()`            |
-| [`win2errno`](include/lpd/win2errno.h) | Windows error codes to C errno |
+| Library                              | Description                    |
+| ------------------------------------ | ------------------------------ |
+| [termcolor](include/lpd_termcolor.h) | portable terminal colors       |
+| [termkind](include/lpd_termkind.h)   | a better `isatty()`            |
+| [win2errno](include/lpd_win2errno.h) | Windows error codes to C errno |
 
 ## License
 

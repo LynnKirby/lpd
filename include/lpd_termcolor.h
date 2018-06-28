@@ -1,5 +1,5 @@
 /*
-# lpd/termcolor.h
+# lpd_termcolor.h
 > portable terminal colors
 
 Written in 2018 by Lynn Kirby <lynn@arrak.is>
@@ -193,7 +193,7 @@ lpd_tc_result lpd_termcolor(FILE* stream, lpd_tc_color fg, lpd_tc_color bg) {
 
 #define LPD_TERMKIND_STATIC
 #define LPD_TERMKIND_IMPLEMENTATION
-#include "lpd/termkind.h"
+#include "lpd_termkind.h"
 
 lpd_tc_result lpd_tc__winapi(FILE* stream, lpd_tc_color fg, lpd_tc_color bg) {
     HANDLE handle = (HANDLE) _get_osfhandle(_fileno(stream));

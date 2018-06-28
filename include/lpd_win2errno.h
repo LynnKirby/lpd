@@ -1,5 +1,5 @@
 /*
-# lpd/win2errno.h
+# lpd_win2errno.h
 > convert Windows system error codes into C standard errno values
 
 Written in 2018 by Lynn Kirby <lynn@arrak.is>

@@ -13,7 +13,7 @@
 #endif
 
 #define LPD_TERMCOLOR_IMPLEMENTATION
-#include "lpd/termcolor.h"
+#include "lpd_termcolor.h"
 
 int main() {
     lpd_termcolor_fg(stdout, LPD_TC_RED);
